@@ -1,0 +1,30 @@
+name: Node.js CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+        env:
+          consumer_key: ${{ secrets.CONSUMER_KEY }}
+          consumer_secret: ${{ secrets.CONSUMER_SECRET }}
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
+      - run: npm run server
+        env:
+          consumer_key: ${{ secrets.CONSUMER_KEY }}
+          consumer_secret: ${{ secrets.CONSUMER_SECRET }}
+          access_token: ${{ secrets.ACCESS_TOKEN }}
+          access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
