@@ -1,3 +1,4 @@
+require("dotenv").config();
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const Twit = require("twit");
@@ -54,7 +55,7 @@ const bot = new Twit({
   await element.screenshot({ path: "player.png" });
   await browser.close();
   postPlayer();
-  setTimeout(postAnswer, 72000000);
+  setTimeout(postAnswer, 10000);
 })();
 
 function postPlayer() {
