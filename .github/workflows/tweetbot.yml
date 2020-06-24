@@ -17,22 +17,31 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: 'echo "$consumer_key" > .env'
-        shell: bash
-        env:
+      # - run: 'echo "$consumer_key" > .env'
+      #   shell: bash
+      #   env:
+      #     consumer_key: ${{ secrets.CONSUMER_KEY }}
+      # - run: 'echo "$consumer_secret" > .env'
+      #   shell: bash
+      #   env:
+      #     consumer_secret: ${{ secrets.CONSUMER_SECRET }}
+      # - run: 'echo "$access_token" > .env'
+      #   shell: bash
+      #   env:
+      #     access_token: ${{ secrets.ACCESS_TOKEN }}
+      # - run: 'echo "access_token_secret" > .env'
+      #   shell: bash
+      #   env:
+      #     access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
+    - name: set environment variables
+        uses: allenevans/set-env@v1.0.0
+        with:
           consumer_key: ${{ secrets.CONSUMER_KEY }}
-      - run: 'echo "$consumer_secret" > .env'
-        shell: bash
-        env:
           consumer_secret: ${{ secrets.CONSUMER_SECRET }}
-      - run: 'echo "$access_token" > .env'
-        shell: bash
-        env:
           access_token: ${{ secrets.ACCESS_TOKEN }}
-      - run: 'echo "access_token_secret" > .env'
-        shell: bash
-        env:
-          access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
+          access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}          
+      - name: Start server
+        run: npm run start   
 #       - name: Test
 #         env:
 #           consumer_key: ${{ secrets.CONSUMER_KEY }}
@@ -42,7 +51,7 @@ jobs:
 #         run: |
 #           echo ${#consumer_key}
 #           echo ${#access_token}
-      - run: npm run start
+      # - run: npm run start
 #         env:
 #           consumer_key: ${{ secrets.CONSUMER_KEY }}
 #           consumer_secret: ${{ secrets.CONSUMER_SECRET }}
