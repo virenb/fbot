@@ -33,7 +33,7 @@ jobs:
       #   shell: bash
       #   env:
       #     access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
-    - name: set environment variables
+      - name: set environment variables
         uses: allenevans/set-env@v1.0.0
         with:
           consumer_key: ${{ secrets.CONSUMER_KEY }}
