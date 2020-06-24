@@ -17,15 +17,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - name: Test
+      - run: 'echo "$consumer_key" > .env'
+        shell: bash
         env:
           consumer_key: ${{ secrets.CONSUMER_KEY }}
-          consumer_secret: ${{ secrets.CONSUMER_SECRET }}
-          access_token: ${{ secrets.ACCESS_TOKEN }}
-          access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
-        run: |
-          echo ${#consumer_key}
-          echo ${#access_token}
+#       - name: Test
+#         env:
+#           consumer_key: ${{ secrets.CONSUMER_KEY }}
+#           consumer_secret: ${{ secrets.CONSUMER_SECRET }}
+#           access_token: ${{ secrets.ACCESS_TOKEN }}
+#           access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
+#         run: |
+#           echo ${#consumer_key}
+#           echo ${#access_token}
 #       - run: npm run start
 #         env:
 #           consumer_key: ${{ secrets.CONSUMER_KEY }}
