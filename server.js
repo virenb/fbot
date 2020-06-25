@@ -60,7 +60,7 @@ const bot = new Twit({
   await element.screenshot({ path: "player.png" });
   await browser.close();
   postPlayer();
-  setTimeout(postAnswer, 43200000);
+  setTimeout(postAnswer, 18000000);
 })();
 
 function postPlayer() {
