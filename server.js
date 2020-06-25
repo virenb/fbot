@@ -81,7 +81,7 @@ function postPlayer() {
     ) {
       if (!err) {
         let params = {
-          status: "Guess that player #footballtrivia",
+          status: "Guess that player #footballtrivia #PremierLeague",
           media_ids: [mediaIdStr],
         };
         bot.post("statuses/update", params, function (err, data, response) {
@@ -100,7 +100,7 @@ function postAnswer() {
     response
   ) {
     let mediaIdStr = data.media_id_string;
-    let altText = "Yesterday's answer.";
+    let altText = "Answer";
     let meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
 
     bot.post("media/metadata/create", meta_params, function (
@@ -110,7 +110,7 @@ function postAnswer() {
     ) {
       if (!err) {
         let params = {
-          status: `Yesterday's answer #footballtrivia`,
+          status: `Today's answer #footballtrivia #PremierLeague`,
           media_ids: [mediaIdStr],
         };
         bot.post("statuses/update", params, function (err, data, response) {
