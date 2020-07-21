@@ -1,7 +1,7 @@
-require("dotenv").config();
-const puppeteer = require("puppeteer");
-const fs = require("fs");
-const Twit = require("twit");
+require('dotenv').config();
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const Twit = require('twit');
 
 const consumer_key = process.env.CONSUMER_KEY;
 const consumer_secret = process.env.CONSUMER_SECRET;
@@ -19,12 +19,12 @@ const bot = new Twit({
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto(
-    "https://en.wikipedia.org/wiki/Special:RandomInCategory/Category:Premier_League_players"
+    'https://en.wikipedia.org/wiki/Special:RandomInCategory/Category:Premier_League_players'
   );
-  const element = await page.$("tbody");
+  const element = await page.$('tbody');
 
   // Screenshot the answer instead of providing link
-  await element.screenshot({ path: "answer.png" });
+  await element.screenshot({ path: 'answer.png' });
   /*
     Removing original answer method. Was printing Wikipedia URL to a .txt file
   */
@@ -36,14 +36,14 @@ const bot = new Twit({
 
   await page.evaluate(() => {
     try {
-      let img = document.querySelector(".image");
-      let nickname = document.querySelector(".nickname");
-      let age = document.querySelector(".ForceAgeToShow");
-      let bplace = document.querySelector(".birthplace");
-      let role = document.querySelector(".role");
-      let org = document.querySelector(".org");
+      let img = document.querySelector('.image');
+      let nickname = document.querySelector('.nickname');
+      let age = document.querySelector('.ForceAgeToShow');
+      let bplace = document.querySelector('.birthplace');
+      let role = document.querySelector('.role');
+      let org = document.querySelector('.org');
       if (img) img.parentNode.remove();
-      nickname.parentNode.remove();
+      if (nickname) nickname.parentNode.remove();
       age.parentNode.parentNode.remove();
 
       bplace.parentNode.nextSibling.remove();
@@ -51,21 +51,28 @@ const bot = new Twit({
 
       role.parentNode.remove();
 
-      if (org) org.parentNode.nextSibling.remove();
+      if (org.parentNode.nextSibling) org.parentNode.nextSibling.remove();
       if (org) org.parentNode.remove();
+
+      let birthname = document.querySelector('.nickname');
+      if (birthname) {
+        birthname.parentNode.remove();
+      }
+      let fullname = document.querySelector('.fn');
+      fullname.remove();
     } catch (err) {
       console.log(err);
     }
   });
-  await element.screenshot({ path: "player.png" });
+  await element.screenshot({ path: 'player.png' });
   await browser.close();
   postPlayer();
   setTimeout(postAnswer, 18000000);
 })();
 
 function postPlayer() {
-  let b64content = fs.readFileSync("./player.png", { encoding: "base64" });
-  bot.post("media/upload", { media_data: b64content }, function (
+  let b64content = fs.readFileSync('./player.png', { encoding: 'base64' });
+  bot.post('media/upload', { media_data: b64content }, function (
     err,
     data,
     response
@@ -74,17 +81,17 @@ function postPlayer() {
     let altText = "Unknown footballer's statistics and information.";
     let meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
 
-    bot.post("media/metadata/create", meta_params, function (
+    bot.post('media/metadata/create', meta_params, function (
       err,
       data,
       response
     ) {
       if (!err) {
         let params = {
-          status: "Guess that player #footballtrivia #PremierLeague",
+          status: 'Guess that player #footballtrivia #PremierLeague',
           media_ids: [mediaIdStr],
         };
-        bot.post("statuses/update", params, function (err, data, response) {
+        bot.post('statuses/update', params, function (err, data, response) {
           console.log(data);
         });
       }
@@ -93,17 +100,17 @@ function postPlayer() {
 }
 
 function postAnswer() {
-  let b64answer = fs.readFileSync("./answer.png", { encoding: "base64" });
-  bot.post("media/upload", { media_data: b64answer }, function (
+  let b64answer = fs.readFileSync('./answer.png', { encoding: 'base64' });
+  bot.post('media/upload', { media_data: b64answer }, function (
     err,
     data,
     response
   ) {
     let mediaIdStr = data.media_id_string;
-    let altText = "Answer";
+    let altText = 'Answer';
     let meta_params = { media_id: mediaIdStr, alt_text: { text: altText } };
 
-    bot.post("media/metadata/create", meta_params, function (
+    bot.post('media/metadata/create', meta_params, function (
       err,
       data,
       response
@@ -113,7 +120,7 @@ function postAnswer() {
           status: `Today's answer #footballtrivia #PremierLeague`,
           media_ids: [mediaIdStr],
         };
-        bot.post("statuses/update", params, function (err, data, response) {
+        bot.post('statuses/update', params, function (err, data, response) {
           console.log(data);
         });
       }
