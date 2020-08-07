@@ -24,6 +24,7 @@ const bot = new Twit({
   const element = await page.$('tbody');
 
   // Screenshot the answer instead of providing link
+  console.log(page.url());
   await element.screenshot({ path: 'answer.png' });
   /*
     Removing original answer method. Was printing Wikipedia URL to a .txt file
