@@ -37,6 +37,18 @@ const bot = new Twit({
 
   await page.evaluate(() => {
     try {
+      if (document.contains(document.querySelector('.box-Tone'))) {
+        document.querySelector('.box-Tone').remove();
+      }
+      if (document.contains(document.querySelector('.box-Expand_language'))) {
+        let languageBox = document.querySelectorAll('.box-Expand_language');
+        if (languageBox.length > 1) {
+          let languageBoxes = Array.from(languageBox);
+          languageBoxes.map((box) => box.remove());
+        } else {
+          languageBox.remove();
+        }
+      }
       let img = document.querySelector('.image');
       let nickname = document.querySelector('.nickname');
       let age = document.querySelector('.ForceAgeToShow');
