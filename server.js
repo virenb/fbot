@@ -37,6 +37,9 @@ const bot = new Twit({
 
   await page.evaluate(() => {
     try {
+      if (document.contains(document.querySelector('.box-Tone'))) {
+        document.querySelector('.box-Tone').remove();
+      }
       let img = document.querySelector('.image');
       let nickname = document.querySelector('.nickname');
       let age = document.querySelector('.ForceAgeToShow');
